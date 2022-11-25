@@ -32,27 +32,19 @@ class ViewController: UIViewController {
     var hourlyWeather: [[String:Any]] = []
     var dailyWeather: [[String:Any]] = []
     
+    var tempView: UIView = {
+        let view = UIView()
+        view.tag = 100
+        view.backgroundColor = #colorLiteral(red: 0.1058823529, green: 0.1137254902, blue: 0.1215686275, alpha: 1)
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         setupUI()
         
-        weatherDetailView.layer.cornerRadius = 15
-        
-        
-        
-        
-        // kelvin to cel
-        let temperature = 296.03
-        let x = String(format: "%.0f", temperature - 273.15)
-//        print("\(x)°")
-        
-        
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        
-
     }
     
     func getLocalDate() -> String {
@@ -193,14 +185,20 @@ extension ViewController: CLLocationManagerDelegate{
                 else {
                 }
             }
-//            let url = "https://api.openweathermap.org/data/2.5/weather?lat=\(currentLoc.coordinate.latitude)&lon=\(currentLoc.coordinate.longitude)&appid=\(key)"
-//
+            
             let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(currentLocation.coordinate.latitude)&lon=\(currentLocation.coordinate.longitude)&appid=d4d20ef76e6d8db277d54c5a66a4db38"
             
             
             AF.request(url).responseJSON(completionHandler: { [self] response in
                 switch response.result {
                 case .success:
+                    if let tempView = view.viewWithTag(100) {
+                        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: { [self] () -> Void in
+                            tempView.alpha = 0
+                        }) { completed in
+                            tempView.removeFromSuperview()
+                        }
+                    }
                     if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
                         temperatureLabel.text = "\(String(format: "%.0f", ((currentConditions["temp"] as! Double) - 273.15)))°"
                         let weatherCondition = currentConditions["weather"] as! [[String:Any]]
@@ -225,14 +223,35 @@ extension ViewController: CLLocationManagerDelegate{
                 }
             } )
         case .notDetermined:
-            print("not determined")
+            locationManager.requestWhenInUseAuthorization()
         case .restricted:
             print("restricted")
         case .denied:
             // handle location access if it is denied
-            print("denied")
+            view.addSubview(tempView)
+            tempView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+            view.bringSubviewToFront(tempView)
+            
+            let alertController = UIAlertController (title: "Alert", message: "Allow access to Location services to continue", preferredStyle: .alert)
+            
+            let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        print("Settings opened: \(success)") // Prints true
+                    })
+                }
+            }
+            alertController.addAction(settingsAction)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { (_) -> Void in
+                exit(0)
+            }
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
         default:
-            locationManager.requestWhenInUseAuthorization()
+            break
         }
     }
 }
@@ -243,19 +262,30 @@ extension Date {
         let nowUTC = Date()
         let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
         guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
-
         return localDate
     }
 }
 
 
 extension ViewController {
+    
     func setupUI() {
+        view.addSubview(tempView)
+        tempView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        view.bringSubviewToFront(tempView)
+        weatherDetailView.layer.cornerRadius = 15
+        
+        // Location access
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        
         dateLabel.text = getLocalDate()
         
+        // Register collection view and table view cells
         hourlyCollectionView.register(UINib(nibName: "HourlyCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HourlyCollectionViewCell")
         dailyTableView.register(UINib(nibName: "DailyTableViewCell", bundle: nil), forCellReuseIdentifier: "DailyTableViewCell")
-
+        
+        // configure layout for collection view cells
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         layout.itemSize = CGSize(width: 120, height: 120)
