@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var hourlyCollectionView: UICollectionView!
-    @IBOutlet weak var dailyCollectionView: UITableView!
+    @IBOutlet weak var dailyTableView: UITableView!
     @IBOutlet weak var currentImageView: UIImageView!
     @IBOutlet weak var feelsLikeLabel: UILabel!
     @IBOutlet weak var sunRiseLabel: UILabel!
@@ -61,14 +61,18 @@ class ViewController: UIViewController {
         return dateFormatter.string(from: Date().localDate())
     }
     
-    func epochToLocalTime(epochTime: Int) -> String{
+    func epochToLocalTime(epochTime: Int, dateRequired: Bool) -> String{
         let currentTime = Double(epochTime)
         let date = Date(timeIntervalSince1970: currentTime)
         let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = DateFormatter.Style.short
+        if dateRequired {
+            dateFormatter.dateFormat = "EEEE"
+        } else {
+            dateFormatter.timeStyle = DateFormatter.Style.short
+        }
         return dateFormatter.string(from: date)
-        
     }
+    
     
     func imageForCurrentWeather(weather: String) -> UIImage {
         switch weather {
@@ -112,6 +116,39 @@ class ViewController: UIViewController {
     
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dailyWeather.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let currentData = dailyWeather[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DailyTableViewCell", for: indexPath) as! DailyTableViewCell
+        cell.separatorInset = .zero
+        cell.selectionStyle = .none
+        cell.dayLabel.text = epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: true)
+        let temperatureData = currentData["temp"] as? [String:Any]
+        
+        let lowTemp = String(format: "%.0f", ((temperatureData!["min"] as! Double) - 273.15))
+        let highTemp = String(format: "%.0f", ((temperatureData!["max"] as! Double) - 273.15))
+        cell.temperatureLabel.text = "Low \(lowTemp)°     High \(highTemp)°"
+        let weather = currentData["weather"] as? [[String:Any]]
+        cell.weatherImageView.image = imageForCurrentWeather(weather: weather![0]["main"] as! String)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return 70
+        } else {
+            return 60
+        }
+    }
+    
+    
+    
+}
+
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return hourlyWeather.count
@@ -120,7 +157,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let currentData = hourlyWeather[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HourlyCollectionViewCell", for: indexPath) as! HourlyCollectionViewCell
-        cell.timeLabel.text = epochToLocalTime(epochTime: currentData["dt"] as! Int)
+        cell.timeLabel.text = epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: false)
         cell.temperatureLabel.text = "\(String(format: "%.0f", ((currentData["temp"] as! Double) - 273.15)))°"
         return cell
         
@@ -167,15 +204,17 @@ extension ViewController: CLLocationManagerDelegate{
                         let weatherCondition = currentConditions["weather"] as! [[String:Any]]
                         weatherTypeLabel.text = (weatherCondition[0]["description"] as? String)?.capitalized
                         currentImageView.image = imageForCurrentWeather(weather: weather[0]["main"] as! String)
-                        feelsLikeLabel.text = "Feels like \(String(describing: ((currentConditions["feels_like"] as! Double) - 273.15)))°"
-                        sunRiseLabel.text = "Sunrise \(epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int))"
-                        sunSetLabel.text = "Sunset \(epochToLocalTime(epochTime: currentConditions["sunset"] as! Int))"
+                        feelsLikeLabel.text = "Feels like \(String(format: "%.1f", ((currentConditions["feels_like"] as! Double) - 273.15)))°"
+                        sunRiseLabel.text = "Sunrise \(epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int, dateRequired: false))"
+                        sunSetLabel.text = "Sunset \(epochToLocalTime(epochTime: currentConditions["sunset"] as! Int, dateRequired: false))"
                         windLabel.text = "\(String(describing: currentConditions["wind_speed"] as! Double)) m/s"
                         humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
                         pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
                         hourlyWeather = hourly
                         dailyWeather = daily
+                        print(dailyWeather)
                         hourlyCollectionView.reloadData()
+                        dailyTableView.reloadData()
                     }
                     break
                 default:
@@ -210,7 +249,10 @@ extension Date {
 extension ViewController {
     func setupUI() {
         dateLabel.text = getLocalDate()
+        
         hourlyCollectionView.register(UINib(nibName: "HourlyCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HourlyCollectionViewCell")
+        dailyTableView.register(UINib(nibName: "DailyTableViewCell", bundle: nil), forCellReuseIdentifier: "DailyTableViewCell")
+
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         layout.itemSize = CGSize(width: 100, height: 100)
