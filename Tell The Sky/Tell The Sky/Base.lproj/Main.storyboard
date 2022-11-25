@@ -264,7 +264,7 @@
                                             <constraint firstItem="Clf-e7-6ZN" firstAttribute="leading" secondItem="1Mf-oE-ews" secondAttribute="leading" id="pfT-nR-nK6"/>
                                         </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Y9E-0Z-PbP">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Y9E-0Z-PbP">
                                         <rect key="frame" x="0.0" y="507.5" width="375" height="159.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
@@ -273,7 +273,7 @@
                                         </connections>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly Forecast" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pon-fa-ibx">
-                                        <rect key="frame" x="20" y="482" width="335" height="20.5"/>
+                                        <rect key="frame" x="20" y="487" width="335" height="20.5"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                         <color key="textColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -283,7 +283,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Y9E-0Z-PbP" secondAttribute="bottom" id="Ewb-c7-k2U"/>
                                     <constraint firstItem="1Mf-oE-ews" firstAttribute="top" secondItem="2Ha-jC-fWO" secondAttribute="bottom" constant="10" id="GbI-kH-suv"/>
-                                    <constraint firstItem="Pon-fa-ibx" firstAttribute="top" secondItem="1Mf-oE-ews" secondAttribute="bottom" constant="10" id="HpM-uf-6YF"/>
+                                    <constraint firstItem="Pon-fa-ibx" firstAttribute="top" secondItem="1Mf-oE-ews" secondAttribute="bottom" constant="15" id="HpM-uf-6YF"/>
                                     <constraint firstItem="Y9E-0Z-PbP" firstAttribute="leading" secondItem="ZKN-Zh-kL9" secondAttribute="leading" id="JDH-nL-RrS"/>
                                     <constraint firstAttribute="trailing" secondItem="9Gx-yO-Tfi" secondAttribute="trailing" id="Oaf-G3-CBf"/>
                                     <constraint firstAttribute="trailing" secondItem="Pon-fa-ibx" secondAttribute="trailing" constant="20" id="ObL-wy-BTc"/>
@@ -292,7 +292,7 @@
                                     <constraint firstItem="9Gx-yO-Tfi" firstAttribute="leading" secondItem="ZKN-Zh-kL9" secondAttribute="leading" id="SJ0-If-cgs"/>
                                     <constraint firstItem="LPC-kG-BD8" firstAttribute="leading" secondItem="ZKN-Zh-kL9" secondAttribute="leading" id="Yfv-Mb-sBa"/>
                                     <constraint firstItem="1Mf-oE-ews" firstAttribute="leading" secondItem="ZKN-Zh-kL9" secondAttribute="leading" id="acp-m1-27A"/>
-                                    <constraint firstItem="Y9E-0Z-PbP" firstAttribute="top" secondItem="Pon-fa-ibx" secondAttribute="bottom" constant="5" id="beo-VC-kQx"/>
+                                    <constraint firstItem="Y9E-0Z-PbP" firstAttribute="top" secondItem="Pon-fa-ibx" secondAttribute="bottom" id="beo-VC-kQx"/>
                                     <constraint firstItem="2Ha-jC-fWO" firstAttribute="leading" secondItem="ZKN-Zh-kL9" secondAttribute="leading" constant="20" id="h2X-Ab-lzr"/>
                                     <constraint firstAttribute="trailing" secondItem="1Mf-oE-ews" secondAttribute="trailing" id="hLM-jI-XUO"/>
                                     <constraint firstItem="Pon-fa-ibx" firstAttribute="leading" secondItem="ZKN-Zh-kL9" secondAttribute="leading" constant="20" id="mdp-kj-PzG"/>

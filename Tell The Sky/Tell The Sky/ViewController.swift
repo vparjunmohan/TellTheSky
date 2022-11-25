@@ -211,6 +211,7 @@ extension ViewController: CLLocationManagerDelegate{
                         humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
                         pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
                         hourlyWeather = hourly
+                        hourlyWeather = Array(hourlyWeather[0..<25])
                         dailyWeather = daily
                         print(dailyWeather)
                         hourlyCollectionView.reloadData()
