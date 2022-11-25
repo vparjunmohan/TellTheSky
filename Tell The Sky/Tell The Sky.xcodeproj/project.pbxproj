@@ -18,6 +18,10 @@
 		DE34A7F62930CBCD00CB2C60 /* Tell_The_SkyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE34A7F52930CBCD00CB2C60 /* Tell_The_SkyTests.swift */; };
 		DE34A8002930CBCD00CB2C60 /* Tell_The_SkyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE34A7FF2930CBCD00CB2C60 /* Tell_The_SkyUITests.swift */; };
 		DE34A8022930CBCD00CB2C60 /* Tell_The_SkyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE34A8012930CBCD00CB2C60 /* Tell_The_SkyUITestsLaunchTests.swift */; };
+		DE34A814293121B200CB2C60 /* HourlyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE34A812293121B200CB2C60 /* HourlyCollectionViewCell.swift */; };
+		DE34A815293121B200CB2C60 /* HourlyCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */; };
+		DE34A818293121C400CB2C60 /* DailyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */; };
+		DE34A819293121C400CB2C60 /* DailyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */; };
 		EB0A73B125087D1B01D0E22E /* Pods_Tell_The_Sky_Tell_The_SkyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C636A84EAF52FCB75A9959F9 /* Pods_Tell_The_Sky_Tell_The_SkyUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +63,10 @@
 		DE34A7FB2930CBCD00CB2C60 /* Tell The SkyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tell The SkyUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE34A7FF2930CBCD00CB2C60 /* Tell_The_SkyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tell_The_SkyUITests.swift; sourceTree = "<group>"; };
 		DE34A8012930CBCD00CB2C60 /* Tell_The_SkyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tell_The_SkyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DE34A812293121B200CB2C60 /* HourlyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCollectionViewCell.swift; sourceTree = "<group>"; };
+		DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyCollectionViewCell.xib; sourceTree = "<group>"; };
+		DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTableViewCell.swift; sourceTree = "<group>"; };
+		DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DailyTableViewCell.xib; sourceTree = "<group>"; };
 		E46FEA358F8C8D170264AD94 /* Pods_Tell_The_Sky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tell_The_Sky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BD35B9DFF8B20F7F9F2D62 /* Pods-Tell The SkyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tell The SkyTests.debug.xcconfig"; path = "Target Support Files/Pods-Tell The SkyTests/Pods-Tell The SkyTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +131,10 @@
 				DE34A7E72930CBCD00CB2C60 /* Assets.xcassets */,
 				DE34A7E92930CBCD00CB2C60 /* LaunchScreen.storyboard */,
 				DE34A7EC2930CBCD00CB2C60 /* Info.plist */,
+				DE34A812293121B200CB2C60 /* HourlyCollectionViewCell.swift */,
+				DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */,
+				DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */,
+				DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */,
 			);
 			path = "Tell The Sky";
 			sourceTree = "<group>";
@@ -164,7 +176,6 @@
 				F7BD35B9DFF8B20F7F9F2D62 /* Pods-Tell The SkyTests.debug.xcconfig */,
 				6E26252F01B41DEB08FD919F /* Pods-Tell The SkyTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -278,8 +289,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE34A7EB2930CBCD00CB2C60 /* LaunchScreen.storyboard in Resources */,
+				DE34A819293121C400CB2C60 /* DailyTableViewCell.xib in Resources */,
 				DE34A7E82930CBCD00CB2C60 /* Assets.xcassets in Resources */,
 				DE34A7E62930CBCC00CB2C60 /* Main.storyboard in Resources */,
+				DE34A815293121B200CB2C60 /* HourlyCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,8 +421,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE34A7E32930CBCC00CB2C60 /* ViewController.swift in Sources */,
+				DE34A818293121C400CB2C60 /* DailyTableViewCell.swift in Sources */,
 				DE34A7DF2930CBCC00CB2C60 /* AppDelegate.swift in Sources */,
 				DE34A7E12930CBCC00CB2C60 /* SceneDelegate.swift in Sources */,
+				DE34A814293121B200CB2C60 /* HourlyCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
