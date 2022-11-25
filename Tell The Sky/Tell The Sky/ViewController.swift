@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var hourlyCollectionView: UICollectionView!
     @IBOutlet weak var dailyCollectionView: UITableView!
+    @IBOutlet weak var currentImageView: UIImageView!
+    
     
     var locationManager = CLLocationManager()
     let key = "d4d20ef76e6d8db277d54c5a66a4db38"
@@ -64,6 +66,27 @@ class ViewController: UIViewController {
         dateFormatter.timeStyle = DateFormatter.Style.short
         return dateFormatter.string(from: date)
         
+    }
+    
+    func imageForCurrentWeather(weather: String) -> UIImage {
+        switch weather {
+        case "Thunderstorm":
+            return UIImage(named: "thunderstorm")!
+        case "Drizzle":
+            return UIImage(named: "drizzle")!
+        case "Rain":
+            return UIImage(named: "rain")!
+        case "Snow":
+            return UIImage(named: "snow")!
+        case "Atmosphere":
+            return UIImage(named: "fog")!
+        case "Clear":
+            return UIImage(named: "clear")!
+        case "Clouds":
+            return UIImage(named: "clouds")!
+        default:
+            return UIImage()
+        }
     }
     
     
@@ -120,11 +143,16 @@ extension ViewController: CLLocationManagerDelegate{
                 switch response.result {
                 case .success:
                     if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
-                        print(hourly)
+                        temperatureLabel.text = "\(String(format: "%.0f", ((currentConditions["temp"] as! Double) - 273.15)))°"
+                        let weatherCondition = currentConditions["weather"] as! [[String:Any]]
+                        weatherTypeLabel.text = weatherCondition[0]["description"] as? String
+                        currentImageView.image = imageForCurrentWeather(weather: weather[0]["main"] as! String)
+                        windLabel.text = "\(String(describing: currentConditions["wind_speed"] as! Double)) m/s"
+                        humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
+                        pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
                         hourlyWeather = hourly
                         dailyWeather = daily
                         hourlyCollectionView.reloadData()
-
                     }
                     break
                 default:
