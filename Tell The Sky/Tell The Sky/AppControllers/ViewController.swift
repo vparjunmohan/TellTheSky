@@ -42,69 +42,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         setupUI()
-        
     }
-    
-    func getLocalDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d MMMM"
-        return dateFormatter.string(from: Date().localDate())
-    }
-    
-    func epochToLocalTime(epochTime: Int, dateRequired: Bool) -> String{
-        let currentTime = Double(epochTime)
-        let date = Date(timeIntervalSince1970: currentTime)
-        let dateFormatter = DateFormatter()
-        if dateRequired {
-            dateFormatter.dateFormat = "EEEE"
-        } else {
-            dateFormatter.timeStyle = DateFormatter.Style.short
-        }
-        return dateFormatter.string(from: date)
-    }
-    
-    
-    func imageForCurrentWeather(weather: String) -> UIImage {
-        switch weather {
-        case "Thunderstorm":
-            return UIImage(named: "thunderstorm")!
-        case "Drizzle":
-            return UIImage(named: "drizzle")!
-        case "Rain":
-            return UIImage(named: "rain")!
-        case "Snow":
-            return UIImage(named: "snow")!
-        case "Atmosphere":
-            return UIImage(named: "fog")!
-        case "Mist":
-            return UIImage(named: "fog")!
-        case "Haze":
-            return UIImage(named: "fog")!
-        case "Smoke":
-            return UIImage(named: "fog")!
-        case "Dust":
-            return UIImage(named: "fog")!
-        case "Fog":
-            return UIImage(named: "fog")!
-        case "Sand":
-            return UIImage(named: "fog")!
-        case "Ash":
-            return UIImage(named: "fog")!
-        case "Squall":
-            return UIImage(named: "fog")!
-        case "Tornado":
-            return UIImage(named: "fog")!
-        case "Clear":
-            return UIImage(named: "clear")!
-        case "Clouds":
-            return UIImage(named: "clouds")!
-        default:
-            return UIImage()
-        }
-    }
-    
     
 }
 
@@ -118,14 +57,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DailyTableViewCell", for: indexPath) as! DailyTableViewCell
         cell.separatorInset = .zero
         cell.selectionStyle = .none
-        cell.dayLabel.text = epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: true)
+        cell.dayLabel.text = AppUtils().epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: true)
         let temperatureData = currentData["temp"] as? [String:Any]
         
         let lowTemp = String(format: "%.0f", ((temperatureData!["min"] as! Double) - 273.15))
         let highTemp = String(format: "%.0f", ((temperatureData!["max"] as! Double) - 273.15))
         cell.temperatureLabel.text = "Low \(lowTemp)°     High \(highTemp)°"
         let weather = currentData["weather"] as? [[String:Any]]
-        cell.weatherImageView.image = imageForCurrentWeather(weather: weather![0]["main"] as! String)
+        cell.weatherImageView.image = AppUtils().imageForCurrentWeather(weather: weather![0]["main"] as! String)
         return cell
     }
     
@@ -136,9 +75,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return 60
         }
     }
-    
-    
-    
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -149,19 +85,13 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let currentData = hourlyWeather[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HourlyCollectionViewCell", for: indexPath) as! HourlyCollectionViewCell
-        cell.timeLabel.text = epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: false)
+        cell.timeLabel.text = AppUtils().epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: false)
         cell.temperatureLabel.text = "\(String(format: "%.0f", ((currentData["temp"] as! Double) - 273.15)))°"
         let weather = currentData["weather"] as? [[String:Any]]
-        cell.weatherImageView.image = imageForCurrentWeather(weather: weather![0]["main"] as! String)
+        cell.weatherImageView.image = AppUtils().imageForCurrentWeather(weather: weather![0]["main"] as! String)
         return cell
-        
     }
-    
-    
 }
-
-
-
 
 extension ViewController: CLLocationManagerDelegate{
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -186,8 +116,7 @@ extension ViewController: CLLocationManagerDelegate{
                 }
             }
             
-            let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(currentLocation.coordinate.latitude)&lon=\(currentLocation.coordinate.longitude)&appid=d4d20ef76e6d8db277d54c5a66a4db38"
-            
+            let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(currentLocation.coordinate.latitude)&lon=\(currentLocation.coordinate.longitude)&appid=\(AppUtils.key)"
             
             AF.request(url).responseJSON(completionHandler: { [self] response in
                 switch response.result {
@@ -203,10 +132,10 @@ extension ViewController: CLLocationManagerDelegate{
                         temperatureLabel.text = "\(String(format: "%.0f", ((currentConditions["temp"] as! Double) - 273.15)))°"
                         let weatherCondition = currentConditions["weather"] as! [[String:Any]]
                         weatherTypeLabel.text = (weatherCondition[0]["description"] as? String)?.capitalized
-                        currentImageView.image = imageForCurrentWeather(weather: weather[0]["main"] as! String)
+                        currentImageView.image = AppUtils().imageForCurrentWeather(weather: weather[0]["main"] as! String)
                         feelsLikeLabel.text = "Feels like \(String(format: "%.1f", ((currentConditions["feels_like"] as! Double) - 273.15)))°"
-                        sunRiseLabel.text = "Sunrise \(epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int, dateRequired: false))"
-                        sunSetLabel.text = "Sunset \(epochToLocalTime(epochTime: currentConditions["sunset"] as! Int, dateRequired: false))"
+                        sunRiseLabel.text = "Sunrise \(AppUtils().epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int, dateRequired: false))"
+                        sunSetLabel.text = "Sunset \(AppUtils().epochToLocalTime(epochTime: currentConditions["sunset"] as! Int, dateRequired: false))"
                         windLabel.text = "\(String(describing: currentConditions["wind_speed"] as! Double)) m/s"
                         humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
                         pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
@@ -253,45 +182,5 @@ extension ViewController: CLLocationManagerDelegate{
         default:
             break
         }
-    }
-}
-
-
-extension Date {
-    func localDate() -> Date {
-        let nowUTC = Date()
-        let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
-        guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
-        return localDate
-    }
-}
-
-
-extension ViewController {
-    
-    func setupUI() {
-        view.addSubview(tempView)
-        tempView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        view.bringSubviewToFront(tempView)
-        weatherDetailView.layer.cornerRadius = 15
-        
-        // Location access
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        
-        dateLabel.text = getLocalDate()
-        
-        // Register collection view and table view cells
-        hourlyCollectionView.register(UINib(nibName: "HourlyCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HourlyCollectionViewCell")
-        dailyTableView.register(UINib(nibName: "DailyTableViewCell", bundle: nil), forCellReuseIdentifier: "DailyTableViewCell")
-        
-        // configure layout for collection view cells
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-        layout.itemSize = CGSize(width: 120, height: 120)
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        hourlyCollectionView.collectionViewLayout = layout
     }
 }

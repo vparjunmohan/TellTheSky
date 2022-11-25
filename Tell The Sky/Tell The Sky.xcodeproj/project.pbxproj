@@ -22,6 +22,8 @@
 		DE34A815293121B200CB2C60 /* HourlyCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */; };
 		DE34A818293121C400CB2C60 /* DailyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */; };
 		DE34A819293121C400CB2C60 /* DailyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */; };
+		DE76233829317EC50035E36C /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76233729317EC50035E36C /* AppExtensions.swift */; };
+		DE76233A29317F030035E36C /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76233929317F030035E36C /* AppUtils.swift */; };
 		EB0A73B125087D1B01D0E22E /* Pods_Tell_The_Sky_Tell_The_SkyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C636A84EAF52FCB75A9959F9 /* Pods_Tell_The_Sky_Tell_The_SkyUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyCollectionViewCell.xib; sourceTree = "<group>"; };
 		DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTableViewCell.swift; sourceTree = "<group>"; };
 		DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DailyTableViewCell.xib; sourceTree = "<group>"; };
+		DE76233729317EC50035E36C /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
+		DE76233929317F030035E36C /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
 		E46FEA358F8C8D170264AD94 /* Pods_Tell_The_Sky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tell_The_Sky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BD35B9DFF8B20F7F9F2D62 /* Pods-Tell The SkyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tell The SkyTests.debug.xcconfig"; path = "Target Support Files/Pods-Tell The SkyTests/Pods-Tell The SkyTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,6 +204,8 @@
 		DE76233629317E160035E36C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				DE76233729317EC50035E36C /* AppExtensions.swift */,
+				DE76233929317F030035E36C /* AppUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -471,7 +477,9 @@
 				DE34A7E32930CBCC00CB2C60 /* ViewController.swift in Sources */,
 				DE34A818293121C400CB2C60 /* DailyTableViewCell.swift in Sources */,
 				DE34A7DF2930CBCC00CB2C60 /* AppDelegate.swift in Sources */,
+				DE76233829317EC50035E36C /* AppExtensions.swift in Sources */,
 				DE34A7E12930CBCC00CB2C60 /* SceneDelegate.swift in Sources */,
+				DE76233A29317F030035E36C /* AppUtils.swift in Sources */,
 				DE34A814293121B200CB2C60 /* HourlyCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
