@@ -193,7 +193,7 @@ extension ViewController: CLLocationManagerDelegate{
                 switch response.result {
                 case .success:
                     if let tempView = view.viewWithTag(100) {
-                        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: { [self] () -> Void in
+                        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: { () -> Void in
                             tempView.alpha = 0
                         }) { completed in
                             tempView.removeFromSuperview()
