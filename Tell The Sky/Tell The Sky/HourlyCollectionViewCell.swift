@@ -12,6 +12,7 @@ class HourlyCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var weatherImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

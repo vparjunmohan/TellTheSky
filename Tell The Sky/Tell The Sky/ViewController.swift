@@ -159,6 +159,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HourlyCollectionViewCell", for: indexPath) as! HourlyCollectionViewCell
         cell.timeLabel.text = epochToLocalTime(epochTime: currentData["dt"] as! Int, dateRequired: false)
         cell.temperatureLabel.text = "\(String(format: "%.0f", ((currentData["temp"] as! Double) - 273.15)))°"
+        let weather = currentData["weather"] as? [[String:Any]]
+        cell.weatherImageView.image = imageForCurrentWeather(weather: weather![0]["main"] as! String)
         return cell
         
     }
@@ -256,7 +258,7 @@ extension ViewController {
 
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.itemSize = CGSize(width: 120, height: 120)
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
