@@ -124,17 +124,13 @@
 		DE34A7DD2930CBCC00CB2C60 /* Tell The Sky */ = {
 			isa = PBXGroup;
 			children = (
-				DE34A7DE2930CBCC00CB2C60 /* AppDelegate.swift */,
-				DE34A7E02930CBCC00CB2C60 /* SceneDelegate.swift */,
-				DE34A7E22930CBCC00CB2C60 /* ViewController.swift */,
-				DE34A7E42930CBCC00CB2C60 /* Main.storyboard */,
-				DE34A7E72930CBCD00CB2C60 /* Assets.xcassets */,
-				DE34A7E92930CBCD00CB2C60 /* LaunchScreen.storyboard */,
+				DE76233229317D3F0035E36C /* Generals */,
+				DE76233429317D860035E36C /* Storyboards */,
+				DE76233329317D610035E36C /* AppControllers */,
+				DE76233129317D240035E36C /* Xib files */,
+				DE76233629317E160035E36C /* Utils */,
+				DE76233529317DF00035E36C /* Resources */,
 				DE34A7EC2930CBCD00CB2C60 /* Info.plist */,
-				DE34A812293121B200CB2C60 /* HourlyCollectionViewCell.swift */,
-				DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */,
-				DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */,
-				DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */,
 			);
 			path = "Tell The Sky";
 			sourceTree = "<group>";
@@ -154,6 +150,58 @@
 				DE34A8012930CBCD00CB2C60 /* Tell_The_SkyUITestsLaunchTests.swift */,
 			);
 			path = "Tell The SkyUITests";
+			sourceTree = "<group>";
+		};
+		DE76233129317D240035E36C /* Xib files */ = {
+			isa = PBXGroup;
+			children = (
+				DE34A812293121B200CB2C60 /* HourlyCollectionViewCell.swift */,
+				DE34A813293121B200CB2C60 /* HourlyCollectionViewCell.xib */,
+				DE34A816293121C400CB2C60 /* DailyTableViewCell.swift */,
+				DE34A817293121C400CB2C60 /* DailyTableViewCell.xib */,
+			);
+			path = "Xib files";
+			sourceTree = "<group>";
+		};
+		DE76233229317D3F0035E36C /* Generals */ = {
+			isa = PBXGroup;
+			children = (
+				DE34A7DE2930CBCC00CB2C60 /* AppDelegate.swift */,
+				DE34A7E02930CBCC00CB2C60 /* SceneDelegate.swift */,
+			);
+			path = Generals;
+			sourceTree = "<group>";
+		};
+		DE76233329317D610035E36C /* AppControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DE34A7E22930CBCC00CB2C60 /* ViewController.swift */,
+			);
+			path = AppControllers;
+			sourceTree = "<group>";
+		};
+		DE76233429317D860035E36C /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				DE34A7E42930CBCC00CB2C60 /* Main.storyboard */,
+				DE34A7E92930CBCD00CB2C60 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		DE76233529317DF00035E36C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DE34A7E72930CBCD00CB2C60 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DE76233629317E160035E36C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		ED2ECC6831D0A30373F46261 /* Frameworks */ = {
