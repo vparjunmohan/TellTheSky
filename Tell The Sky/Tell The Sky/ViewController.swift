@@ -12,9 +12,11 @@ import Alamofire
 class ViewController: UIViewController {
     
     var locationManager = CLLocationManager()
-    let key = "60054c7b80e9b5dbf30d5b02ec6663e8"
+    let key = "d4d20ef76e6d8db277d54c5a66a4db38"
     
     var currentCity: String = ""
+    var hourlyWeather: [[String:Any]] = []
+    var dailyWeather: [[String:Any]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,12 +55,18 @@ extension ViewController: CLLocationManagerDelegate{
                 else {
                 }
             }
-            let url = "https://api.openweathermap.org/data/2.5/weather?lat=\(currentLoc.coordinate.latitude)&lon=\(currentLoc.coordinate.longitude)&appid=\(key)"
+//            let url = "https://api.openweathermap.org/data/2.5/weather?lat=\(currentLoc.coordinate.latitude)&lon=\(currentLoc.coordinate.longitude)&appid=\(key)"
+//
+            let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(currentLoc.coordinate.latitude)&lon=\(currentLoc.coordinate.longitude)&appid=d4d20ef76e6d8db277d54c5a66a4db38"
+            
+            
             AF.request(url).responseJSON(completionHandler: { [self] response in
                 switch response.result {
                 case .success:
-                    if let responseValue = response.value as? [String: Any]{
-                        print(responseValue)
+                    if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
+                        hourlyWeather = hourly
+                        dailyWeather = daily
+                        
                     }
                     break
                 default:
