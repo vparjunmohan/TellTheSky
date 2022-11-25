@@ -1,0 +1,6 @@
+framework module Pods_Tell_The_Sky_Tell_The_SkyUITests {
+  umbrella header "Pods-Tell The Sky-Tell The SkyUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
