@@ -263,6 +263,10 @@
                             <constraint firstItem="ZKN-Zh-kL9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ryK-nj-ot1"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cityLabel" destination="baF-Lz-J7v" id="cAa-r4-XhJ"/>
+                        <outlet property="dateLabel" destination="VV5-Py-KK7" id="tpg-kx-NEq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

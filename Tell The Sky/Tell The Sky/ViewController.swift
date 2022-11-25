@@ -11,6 +11,9 @@ import Alamofire
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
     var locationManager = CLLocationManager()
     let key = "d4d20ef76e6d8db277d54c5a66a4db38"
     
@@ -22,11 +25,24 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        setupUI()
+        
+        
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
+        
+        
+        
+       
+        
 
     }
     
+    func getLocalDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, d MMMM"
+        return dateFormatter.string(from: Date().localDate())
+    }
     
     
 }
@@ -60,19 +76,19 @@ extension ViewController: CLLocationManagerDelegate{
             let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(currentLoc.coordinate.latitude)&lon=\(currentLoc.coordinate.longitude)&appid=d4d20ef76e6d8db277d54c5a66a4db38"
             
             
-            AF.request(url).responseJSON(completionHandler: { [self] response in
-                switch response.result {
-                case .success:
-                    if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
-                        hourlyWeather = hourly
-                        dailyWeather = daily
-                        
-                    }
-                    break
-                default:
-                    break
-                }
-            } )
+//            AF.request(url).responseJSON(completionHandler: { [self] response in
+//                switch response.result {
+//                case .success:
+//                    if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
+//                        hourlyWeather = hourly
+//                        dailyWeather = daily
+//
+//                    }
+//                    break
+//                default:
+//                    break
+//                }
+//            } )
         case .notDetermined:
             print("not determined")
         case .restricted:
@@ -83,5 +99,23 @@ extension ViewController: CLLocationManagerDelegate{
         default:
             locationManager.requestWhenInUseAuthorization()
         }
+    }
+}
+
+
+extension Date {
+    func localDate() -> Date {
+        let nowUTC = Date()
+        let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
+        guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
+
+        return localDate
+    }
+}
+
+
+extension ViewController {
+    func setupUI() {
+        dateLabel.text = getLocalDate()
     }
 }
