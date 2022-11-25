@@ -22,7 +22,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var hourlyCollectionView: UICollectionView!
     @IBOutlet weak var dailyCollectionView: UITableView!
     @IBOutlet weak var currentImageView: UIImageView!
-    
+    @IBOutlet weak var feelsLikeLabel: UILabel!
+    @IBOutlet weak var sunRiseLabel: UILabel!
+    @IBOutlet weak var sunSetLabel: UILabel!
     
     var locationManager = CLLocationManager()
     let key = "d4d20ef76e6d8db277d54c5a66a4db38"
@@ -79,6 +81,24 @@ class ViewController: UIViewController {
         case "Snow":
             return UIImage(named: "snow")!
         case "Atmosphere":
+            return UIImage(named: "fog")!
+        case "Mist":
+            return UIImage(named: "fog")!
+        case "Haze":
+            return UIImage(named: "fog")!
+        case "Smoke":
+            return UIImage(named: "fog")!
+        case "Dust":
+            return UIImage(named: "fog")!
+        case "Fog":
+            return UIImage(named: "fog")!
+        case "Sand":
+            return UIImage(named: "fog")!
+        case "Ash":
+            return UIImage(named: "fog")!
+        case "Squall":
+            return UIImage(named: "fog")!
+        case "Tornado":
             return UIImage(named: "fog")!
         case "Clear":
             return UIImage(named: "clear")!
@@ -145,8 +165,11 @@ extension ViewController: CLLocationManagerDelegate{
                     if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
                         temperatureLabel.text = "\(String(format: "%.0f", ((currentConditions["temp"] as! Double) - 273.15)))°"
                         let weatherCondition = currentConditions["weather"] as! [[String:Any]]
-                        weatherTypeLabel.text = weatherCondition[0]["description"] as? String
+                        weatherTypeLabel.text = (weatherCondition[0]["description"] as? String)?.capitalized
                         currentImageView.image = imageForCurrentWeather(weather: weather[0]["main"] as! String)
+                        feelsLikeLabel.text = "Feels like \(String(describing: ((currentConditions["feels_like"] as! Double) - 273.15)))°"
+                        sunRiseLabel.text = "Sunrise \(epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int))"
+                        sunSetLabel.text = "Sunset \(epochToLocalTime(epochTime: currentConditions["sunset"] as! Int))"
                         windLabel.text = "\(String(describing: currentConditions["wind_speed"] as! Double)) m/s"
                         humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
                         pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
