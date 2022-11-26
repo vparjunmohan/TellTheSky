@@ -161,7 +161,7 @@ extension ViewController: CLLocationManagerDelegate{
             tempView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
             view.bringSubviewToFront(tempView)
             
-            let alertController = UIAlertController (title: "Alert", message: "Allow access to Location services to continue", preferredStyle: .alert)
+            let alertController = UIAlertController (title: "Alert", message: "Allow access to Location services to continue.", preferredStyle: .alert)
             
             let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
                 guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
