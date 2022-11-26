@@ -33,14 +33,14 @@
 ```sh
 cd TellTheSky
 ```
-Click TellTheSky.xcworkspace and Open the project.
+>Click TellTheSky.xcworkspace and Open the project.
 <br>
-Go to Utils folder. Open AppUtils.swift file and paste the API key that you have copied.
+>Go to Utils folder. Open AppUtils.swift file and paste the API key that you have copied.
 For example:
 ```sh
 public static let key: String = "xxxxxxxxxxxxxxx"
 ```
-Run the project. 
+>Run the project. 
  
 
 ## License
