@@ -1,5 +1,7 @@
 # Tell The Sky -  Weather App
 
+![image](https://user-images.githubusercontent.com/62532677/204082789-e6ce70d2-b4b1-40fb-aa75-6646933b1b31.png)
+
 ## Features
 
 - Minimal UI
@@ -19,10 +21,10 @@
 - Go to https://openweathermap.org and create an account 
 - Subscribe to OpenWeatherMap's  One Call API 3.0 using the following link https://openweathermap.org/api
 - One Call API 3.0 allows 2000 API requests per day and have the following features:
-> Minute forecast for 1 hour
-> Hourly forecast for 48 hours
-> Daily forecast for 8 days
-> Historical data for 40+ years back by timestamp
+> Minute forecast for 1 hour, 
+> Hourly forecast for 48 hours, 
+> Daily forecast for 8 days, 
+> Historical data for 40+ years back by timestamp, 
 > National weather alerts
 - Copy the API key from your account. If a new API key is generated, it will take an hour to get activated. You can use the default API key provided by OpenWeatherMap.
 - Clone the repository.
