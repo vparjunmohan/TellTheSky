@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Tell The Sky use your location to provide you with accurate weather data and forecasts.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Tell The Sky use your location to provide you with accurate weather data and forecasts.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Tell The Sky use your location to provide you with accurate weather data and forecasts.</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Tell The Sky use your location to provide you with accurate weather data and forecasts.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
