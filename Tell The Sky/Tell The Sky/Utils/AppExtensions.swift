@@ -26,9 +26,9 @@ extension ViewController {
         view.bringSubviewToFront(tempView)
         weatherDetailView.layer.cornerRadius = 15
         
-        // Location access
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
+//        // Location access
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.delegate = self
         
         dateLabel.text = AppUtils().getLocalDate()
         

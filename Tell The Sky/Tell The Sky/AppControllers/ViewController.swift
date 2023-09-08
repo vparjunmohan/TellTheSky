@@ -45,6 +45,13 @@ class ViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Location access
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+    }
+    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -105,6 +112,7 @@ extension ViewController: CLLocationManagerDelegate{
         switch authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
             currentLocation = locationManager.location
+            guard let currentLocation else { return }
             CLGeocoder().reverseGeocodeLocation(currentLocation) { [self] (placemarks, error) -> Void in
                 if error != nil {
                     return
@@ -117,40 +125,8 @@ extension ViewController: CLLocationManagerDelegate{
             }
             
             let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(currentLocation.coordinate.latitude)&lon=\(currentLocation.coordinate.longitude)&appid=\(AppUtils.key)"
+            fetchWeatherInfo(url: url)
             
-            AF.request(url).responseJSON(completionHandler: { [self] response in
-                switch response.result {
-                case .success:
-                    if let tempView = view.viewWithTag(100) {
-                        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: { () -> Void in
-                            tempView.alpha = 0
-                        }) { completed in
-                            tempView.removeFromSuperview()
-                        }
-                    }
-                    if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
-                        temperatureLabel.text = "\(String(format: "%.0f", ((currentConditions["temp"] as! Double) - 273.15)))°"
-                        let weatherCondition = currentConditions["weather"] as! [[String:Any]]
-                        weatherTypeLabel.text = (weatherCondition[0]["description"] as? String)?.capitalized
-                        currentImageView.image = AppUtils().imageForCurrentWeather(weather: weather[0]["main"] as! String)
-                        feelsLikeLabel.text = "Feels like \(String(format: "%.1f", ((currentConditions["feels_like"] as! Double) - 273.15)))°"
-                        sunRiseLabel.text = "Sunrise \(AppUtils().epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int, dateRequired: false))"
-                        sunSetLabel.text = "Sunset \(AppUtils().epochToLocalTime(epochTime: currentConditions["sunset"] as! Int, dateRequired: false))"
-                        windLabel.text = "\(String(describing: currentConditions["wind_speed"] as! Double)) m/s"
-                        humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
-                        pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
-                        hourlyWeather = hourly
-                        hourlyWeather = Array(hourlyWeather[0..<25])
-                        dailyWeather = daily
-                        print(dailyWeather)
-                        hourlyCollectionView.reloadData()
-                        dailyTableView.reloadData()
-                    }
-                    break
-                default:
-                    break
-                }
-            } )
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
@@ -161,26 +137,72 @@ extension ViewController: CLLocationManagerDelegate{
             tempView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
             view.bringSubviewToFront(tempView)
             
-            let alertController = UIAlertController (title: "Alert", message: "Allow access to Location services to continue.", preferredStyle: .alert)
+            let alertController = UIAlertController (title: "Alert", message: "Allow access to Location Services to continue.", preferredStyle: .alert)
             
             let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
-                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                    return
-                }
-                if UIApplication.shared.canOpenURL(settingsUrl) {
-                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                        print("Settings opened: \(success)") // Prints true
-                    })
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    if UIApplication.shared.canOpenURL(settingsURL) {
+                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                    }
                 }
             }
             alertController.addAction(settingsAction)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { (_) -> Void in
-                exit(0)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { [weak self] _ in
+                guard let self else { return }
+                alertController.dismiss(animated: true)
+                if let tempView = self.view.viewWithTag(100) {
+                    UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: { () -> Void in
+                        tempView.alpha = 0
+                    }) { completed in
+                        tempView.removeFromSuperview()
+                    }
+                }
+                self.cityLabel.text = "New Delhi, India"
+                let url = "https://api.openweathermap.org/data/3.0/onecall?lat=\(28.61)&lon=\(77.20)&appid=\(AppUtils.key)"
+                fetchWeatherInfo(url: url)
             }
             alertController.addAction(cancelAction)
             present(alertController, animated: true, completion: nil)
         default:
             break
         }
+    }
+}
+
+extension ViewController {
+    func fetchWeatherInfo(url: String) {
+        AF.request(url).responseJSON(completionHandler: { [self] response in
+            switch response.result {
+            case .success:
+                if let tempView = view.viewWithTag(100) {
+                    UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: { () -> Void in
+                        tempView.alpha = 0
+                    }) { completed in
+                        tempView.removeFromSuperview()
+                    }
+                }
+                if let responseValue = response.value as? [String: Any], let currentConditions = responseValue["current"] as? [String:Any], let weather = currentConditions["weather"] as? [[String:Any]], let hourly = responseValue["hourly"] as? [[String:Any]], let daily = responseValue["daily"] as? [[String:Any]] {
+                    temperatureLabel.text = "\(String(format: "%.0f", ((currentConditions["temp"] as! Double) - 273.15)))°"
+                    let weatherCondition = currentConditions["weather"] as! [[String:Any]]
+                    weatherTypeLabel.text = (weatherCondition[0]["description"] as? String)?.capitalized
+                    currentImageView.image = AppUtils().imageForCurrentWeather(weather: weather[0]["main"] as! String)
+                    feelsLikeLabel.text = "Feels like \(String(format: "%.1f", ((currentConditions["feels_like"] as! Double) - 273.15)))°"
+                    sunRiseLabel.text = "Sunrise \(AppUtils().epochToLocalTime(epochTime: currentConditions["sunrise"] as! Int, dateRequired: false))"
+                    sunSetLabel.text = "Sunset \(AppUtils().epochToLocalTime(epochTime: currentConditions["sunset"] as! Int, dateRequired: false))"
+                    windLabel.text = "\(String(describing: currentConditions["wind_speed"] as! Double)) m/s"
+                    humidityLabel.text = "\(String(describing: currentConditions["humidity"] as! Double)) %"
+                    pressureLabel.text = "\(String(describing: currentConditions["pressure"] as! Double)) hPa"
+                    hourlyWeather = hourly
+                    hourlyWeather = Array(hourlyWeather[0..<25])
+                    dailyWeather = daily
+                    print(dailyWeather)
+                    hourlyCollectionView.reloadData()
+                    dailyTableView.reloadData()
+                }
+                break
+            default:
+                break
+            }
+        } )
     }
 }
